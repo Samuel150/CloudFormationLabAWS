@@ -17,7 +17,8 @@ except getopt.error as err:
 
 import boto3
 
-PROJECT='upb-cloudformation'
+PROJECT='upb-cloudformation2'
+BUCKET_NAME= f"{PROJECT}-bucket-150"
 
 cf = boto3.client('cloudformation')
 
@@ -28,6 +29,12 @@ if command in ("--create", "c"):
     response = cf.create_stack(
      StackName=PROJECT,
      TemplateBody=template,
+     Parameters=[
+         {
+             'ParameterKey': 'BucketName',
+             'ParameterValue': BUCKET_NAME
+         }
+     ]
     )    
     print(response)
 elif command in ("--update", "u"):
